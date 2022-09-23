@@ -21,12 +21,12 @@ class _HomePageState extends State<HomePage> {
       ),
       body: BlocBuilder<HarryCollectionsBloc, HarryCollectionsState>(
         builder: (context, state) {
-          var content = state.when(
+          final content = state.when(
             initial: () {
               return const Text('Initial state.');
             },
             loading: () {
-              return const Text('Loading...');
+              return const CircularProgressIndicator();
             },
             loaded: ((data) {
               return Text('Loading done. ${data.length} items to display.');
@@ -36,7 +36,6 @@ class _HomePageState extends State<HomePage> {
             },
           );
 
-          // return content;
           return Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
