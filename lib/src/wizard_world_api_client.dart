@@ -1,10 +1,12 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:injectable/injectable.dart';
 
 import 'models/elixir.dart';
 
 class ElixirsRequestFailure implements Exception {}
 
+@injectable
 class WizardWorldApiClient {
   WizardWorldApiClient({Dio? dio})
       : _dio = dio ??
