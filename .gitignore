@@ -46,3 +46,4 @@ app.*.map.json
 # Freezed codegen files
 *.g.dart 
 *.freezed.dart
+.gitignore
