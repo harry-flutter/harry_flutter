@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 import '../application/bloc/harry_collections_bloc.dart';
 import '../application/bloc/user_auth_bloc.dart';
@@ -11,11 +12,11 @@ import 'ui/routes/login_page.dart';
 class MyApp extends StatelessWidget {
   MyApp({
     Key? key,
-    required this.authenticated,
+    required this.authBox,
     required this.wizardWorldRepository,
   }) : super(key: key);
 
-  final bool authenticated;
+  final Box<dynamic> authBox;
   final WizardWorldRepository wizardWorldRepository;
 
   final _appRouter = sl<AppRouter>();
@@ -26,7 +27,7 @@ class MyApp extends StatelessWidget {
       value: wizardWorldRepository,
       child: MultiBlocProvider(
         providers: [
-          BlocProvider<UserAuthBloc>(create: (BuildContext context) => UserAuthBloc()),
+          BlocProvider<UserAuthBloc>(create: (BuildContext context) => UserAuthBloc(authBox: authBox)),
           BlocProvider<HarryCollectionsBloc>(
             create: (BuildContext context) => HarryCollectionsBloc(wizardWorldRepository: wizardWorldRepository)
               ..add(const HarryCollectionsEvent.bootstrap()),

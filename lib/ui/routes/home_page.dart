@@ -2,12 +2,15 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 import '../../application/bloc/user_auth_bloc.dart';
 import '../../application/navigation/app_router.gr.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  HomePage({super.key});
+
+  final authBox = Hive.box('auth');
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -16,6 +19,8 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
+    String login = widget.authBox.get('login', defaultValue: '');
+
     return AutoTabsRouter(
       routes: const [
         ElixirsPageRoute(),
@@ -30,6 +35,10 @@ class _HomePageState extends State<HomePage> {
 
         return Scaffold(
             appBar: AppBar(
+              title: Text(
+                login,
+                style: const TextStyle(fontStyle: FontStyle.italic),
+              ),
               actions: [
                 Padding(
                     padding: const EdgeInsets.only(right: 20.0),

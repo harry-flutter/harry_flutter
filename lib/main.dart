@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 import 'app.dart';
 import 'application/injection_module/injection_container.dart';
@@ -10,7 +11,10 @@ Future<void> main() async {
   await configureDependencies();
   await dotenv.load(fileName: ".env");
 
+  await Hive.initFlutter();
+  final authBox = await Hive.openBox('auth');
+
   runApp(
-    MyApp(authenticated: true, wizardWorldRepository: WizardWorldRepository()),
+    MyApp(authBox: authBox, wizardWorldRepository: WizardWorldRepository()),
   );
 }
