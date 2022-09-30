@@ -1,10 +1,11 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:harry_flutter/src/routes/Elixirs/elixirs_page.dart';
-import 'package:harry_flutter/src/routes/Houses/houses_page.dart';
-import 'package:harry_flutter/src/routes/Spells/spells_page.dart';
-import 'package:harry_flutter/src/routes/Wizards/wizards_page.dart';
-import 'package:harry_flutter/src/routes/home_page.dart';
-import '../../src/routes/Ingredients/ingridients_page.dart';
+
+import '../../ui/routes/Elixirs/elixirs_page.dart';
+import '../../ui/routes/Houses/houses_page.dart';
+import '../../ui/routes/Ingredients/ingridients_page.dart';
+import '../../ui/routes/Spells/spells_page.dart';
+import '../../ui/routes/Wizards/wizards_page.dart';
+import '../../ui/routes/home_page.dart';
 
 @CustomAutoRouter(
     transitionsBuilder: TransitionsBuilders.fadeIn,
@@ -35,8 +36,6 @@ import '../../src/routes/Ingredients/ingridients_page.dart';
             path: "wizards-page",
             page: WizardsPage,
           ),
-
-          // redirect all other paths
           RedirectRoute(path: '*', redirectTo: '/'),
         ],
       ),

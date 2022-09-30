@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 
-import '../bloc/user_auth_bloc.dart';
+import '../../application/bloc/user_auth_bloc.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -38,6 +38,8 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    final userAuthBloc = context.read<UserAuthBloc>();
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Login'),
@@ -89,7 +91,6 @@ class _LoginPageState extends State<LoginPage> {
                     final emailField = _formKey.currentState!.fields['email'];
                     final passwordField = _formKey.currentState!.fields['password'];
                     if (emailField!.isValid && passwordField!.isValid) {
-                      final userAuthBloc = context.read<UserAuthBloc>();
                       userAuthBloc.add(
                         UserAuthEvent.signIn(
                           emailField.value,

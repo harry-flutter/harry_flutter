@@ -2,8 +2,8 @@ import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../models/elixir.dart';
-import '../repository/wizard_world_repository.dart';
+import '../../data/models/elixir.dart';
+import '../../data/repository/wizard_world_repository.dart';
 
 part 'harry_collections_bloc.freezed.dart';
 part 'harry_collections_event.dart';

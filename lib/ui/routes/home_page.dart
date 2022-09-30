@@ -1,9 +1,9 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:harry_flutter/application/navigation/app_router.gr.dart';
 
-import '../bloc/user_auth_bloc.dart';
+import '../../application/bloc/user_auth_bloc.dart';
+import '../../application/navigation/app_router.gr.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
