@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../application/bloc/user_auth_bloc.dart';
 import '../../application/navigation/app_router.gr.dart';
@@ -54,11 +55,11 @@ class _HomePageState extends State<HomePage> {
               selectedIconTheme: const IconThemeData(color: Colors.black87, opacity: 1.0, size: 50),
               unselectedIconTheme: const IconThemeData(color: Colors.black45, opacity: 1.0, size: 24),
               items: const [
-                BottomNavigationBarItem(label: 'Elixirs', icon: Icon(Icons.access_time_filled_sharp)),
-                BottomNavigationBarItem(label: 'Houses', icon: Icon(Icons.access_time_filled_sharp)),
-                BottomNavigationBarItem(label: 'Ingridients', icon: Icon(Icons.access_time_filled_sharp)),
-                BottomNavigationBarItem(label: 'Spells', icon: Icon(Icons.access_time_filled_sharp)),
-                BottomNavigationBarItem(label: 'Wizards', icon: Icon(Icons.access_time_filled_sharp)),
+                BottomNavigationBarItem(label: 'Elixirs', icon: FaIcon(FontAwesomeIcons.flask)),
+                BottomNavigationBarItem(label: 'Houses', icon: FaIcon(FontAwesomeIcons.fortAwesome)),
+                BottomNavigationBarItem(label: 'Ingridients', icon: FaIcon(FontAwesomeIcons.cubesStacked)),
+                BottomNavigationBarItem(label: 'Spells', icon: FaIcon(FontAwesomeIcons.wandSparkles)),
+                BottomNavigationBarItem(label: 'Wizards', icon: FaIcon(FontAwesomeIcons.hatWizard)),
               ],
             ));
       },
