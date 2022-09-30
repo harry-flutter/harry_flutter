@@ -5,6 +5,8 @@ class ElixirsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Container(
+      child: const Text('Elixirs Page Route'),
+    );
   }
 }

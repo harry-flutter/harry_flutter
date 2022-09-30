@@ -9,37 +9,37 @@ import 'repository/wizard_world_repository.dart';
 import 'routes/login_page.dart';
 
 class MyApp extends StatelessWidget {
-  MyApp({Key? key, required WizardWorldRepository wizardWorldRepository})
-      : _wizardWorldRepository = wizardWorldRepository,
-        super(key: key);
+  MyApp({
+    Key? key,
+    required this.authenticated,
+    required this.wizardWorldRepository,
+  }) : super(key: key);
 
-  final WizardWorldRepository _wizardWorldRepository;
+  final bool authenticated;
+  final WizardWorldRepository wizardWorldRepository;
 
   final _appRouter = sl<AppRouter>();
 
   @override
   Widget build(BuildContext context) {
     return RepositoryProvider.value(
-      value: _wizardWorldRepository,
+      value: wizardWorldRepository,
       child: MultiBlocProvider(
         providers: [
           BlocProvider<UserAuthBloc>(create: (BuildContext context) => UserAuthBloc()),
           BlocProvider<HarryCollectionsBloc>(
-            create: (BuildContext context) => HarryCollectionsBloc(wizardWorldRepository: _wizardWorldRepository)
+            create: (BuildContext context) => HarryCollectionsBloc(wizardWorldRepository: wizardWorldRepository)
               ..add(const HarryCollectionsEvent.bootstrap()),
           )
         ],
         child: MaterialApp.router(
           title: 'Harry Flutter',
-          theme: ThemeData(
-            primarySwatch: Colors.blue,
-          ),
-          routeInformationParser: _appRouter.defaultRouteParser(),
+          theme: ThemeData.light(),
           routerDelegate: _appRouter.delegate(),
+          routeInformationParser: _appRouter.defaultRouteParser(),
           builder: (context, router) {
             return BlocBuilder<UserAuthBloc, UserAuthState>(
               builder: (context, state) {
-                print(state);
                 return state.maybeMap(orElse: () {
                   return const LoginPage();
                 }, authorized: (login) {

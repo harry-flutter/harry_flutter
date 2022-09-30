@@ -5,6 +5,8 @@ class SpellsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Container(
+      child: const Text('Spells Page'),
+    );
   }
 }

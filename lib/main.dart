@@ -11,6 +11,6 @@ Future<void> main() async {
   await dotenv.load(fileName: ".env");
 
   runApp(
-    MyApp(wizardWorldRepository: WizardWorldRepository()),
+    MyApp(authenticated: true, wizardWorldRepository: WizardWorldRepository()),
   );
 }
