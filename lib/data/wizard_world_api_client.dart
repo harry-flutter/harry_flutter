@@ -1,23 +1,14 @@
 import 'package:dio/dio.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:injectable/injectable.dart';
 
+import '../application/injection_module/injection_container.dart';
 import 'models/elixir.dart';
 
 class ElixirsRequestFailure implements Exception {}
 
 @injectable
 class WizardWorldApiClient {
-  WizardWorldApiClient({Dio? dio})
-      : _dio = dio ??
-            Dio(
-              BaseOptions(
-                baseUrl: dotenv.get('BASE_URL', fallback: ''),
-              ),
-            );
-
-  final Dio _dio;
-
+  final _dio = sl<Dio>();
   static const _elixirsUrl = '/Elixirs';
 
   Future<List<Elixir>> getElixirs() async {

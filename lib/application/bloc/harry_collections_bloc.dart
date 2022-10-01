@@ -4,15 +4,16 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../data/models/elixir.dart';
 import '../../data/repository/wizard_world_repository.dart';
+import '../injection_module/injection_container.dart';
 
 part 'harry_collections_bloc.freezed.dart';
 part 'harry_collections_event.dart';
 part 'harry_collections_state.dart';
 
 class HarryCollectionsBloc extends Bloc<HarryCollectionsEvent, HarryCollectionsState> {
-  final WizardWorldRepository wizardWorldRepository;
+  final WizardWorldRepository wizardWorldRepository = sl<WizardWorldRepository>();
 
-  HarryCollectionsBloc({required this.wizardWorldRepository}) : super(const _Initial()) {
+  HarryCollectionsBloc() : super(const _Initial()) {
     on<_Bootstrap>(_onBootstrap);
   }
 
