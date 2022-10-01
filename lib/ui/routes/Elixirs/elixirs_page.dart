@@ -24,10 +24,11 @@ class ElixirsPage extends StatelessWidget {
               itemBuilder: ((BuildContext context, int index) {
                 final item = data.elixirs[index];
                 return ListTile(
-                  title: Text(item.name != null ? item.name as String : ''),
+                  title: Text(item.name ?? 'Empty name'),
                   trailing: _renderDifficultyLabel(item),
                   subtitle: _renderIngredientsLabel(item),
                   isThreeLine: true,
+                  onTap: () => print('Elixir: $item'),
                 );
               }),
               itemCount: data.elixirs.length,
@@ -45,10 +46,13 @@ class ElixirsPage extends StatelessWidget {
         label = '*';
         break;
       case 'Moderate':
-        label = '***';
+        label = '**';
         break;
       case 'Advanced':
-        label = '*****';
+        label = '***';
+        break;
+      case 'OrdinaryWizardingLevel':
+        label = '****';
         break;
     }
     return Text(
