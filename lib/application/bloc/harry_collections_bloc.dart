@@ -3,6 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../data/models/elixir.dart';
+import '../../data/models/house.dart';
 import '../../data/repository/wizard_world_repository.dart';
 import '../injection_module/injection_container.dart';
 
@@ -20,8 +21,9 @@ class HarryCollectionsBloc extends Bloc<HarryCollectionsEvent, HarryCollectionsS
   Future<void> _onBootstrap(_Bootstrap event, Emitter<HarryCollectionsState> emit) async {
     emit(const HarryCollectionsState.loading());
     try {
-      final elixirs = await wizardWorldRepository.getElixirs();
-      emit(HarryCollectionsState.loaded(elixirs));
+      final elixirs = await wizardWorldRepository.fetchAllElixirs();
+      final houses = await wizardWorldRepository.fetchAllHouses();
+      emit(HarryCollectionsState.loaded(elixirs: elixirs, houses: houses));
     } on DioError catch (e) {
       emit(HarryCollectionsState.error('Network error: ${e.message}'));
     } catch (e) {
