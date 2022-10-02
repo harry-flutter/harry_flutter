@@ -20,9 +20,10 @@ class ElixirsPage extends StatelessWidget {
             );
           },
           loaded: ((data) {
+            final elixirs = data.elixirs;
             return ListView.builder(
               itemBuilder: ((BuildContext context, int index) {
-                final item = data.elixirs[index];
+                final item = elixirs[index];
                 return ListTile(
                   title: Text(item.name ?? 'Empty name'),
                   trailing: _renderDifficultyLabel(item),
@@ -31,7 +32,7 @@ class ElixirsPage extends StatelessWidget {
                   onTap: () => print('Elixir: $item'),
                 );
               }),
-              itemCount: data.elixirs.length,
+              itemCount: elixirs.length,
             );
           }),
         );

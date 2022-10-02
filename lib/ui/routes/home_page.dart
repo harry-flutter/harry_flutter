@@ -41,18 +41,20 @@ class _HomePageState extends State<HomePage> {
               ),
               actions: [
                 Padding(
-                    padding: const EdgeInsets.only(right: 20.0),
-                    child: GestureDetector(
-                      onTap: () {
-                        userAuthBloc.add(const UserAuthEvent.logout());
-                      },
-                      child: const Icon(Icons.logout_sharp),
-                    )),
+                  padding: const EdgeInsets.only(right: 16.0),
+                  child: GestureDetector(
+                    onTap: () => userAuthBloc.add(const UserAuthEvent.logout()),
+                    child: const Icon(Icons.logout_sharp),
+                  ),
+                ),
               ],
             ),
             body: FadeTransition(
               opacity: animation,
-              child: SafeArea(child: child),
+              child: Padding(
+                padding: const EdgeInsets.only(top: 16.0),
+                child: child,
+              ),
             ),
             bottomNavigationBar: BottomNavigationBar(
               type: BottomNavigationBarType.fixed,
@@ -61,8 +63,8 @@ class _HomePageState extends State<HomePage> {
                 tabsRouter.setActiveIndex(index);
               },
               showSelectedLabels: false,
-              selectedIconTheme: const IconThemeData(color: Colors.black87, opacity: 1.0, size: 50),
-              unselectedIconTheme: const IconThemeData(color: Colors.black45, opacity: 1.0, size: 24),
+              selectedIconTheme: const IconThemeData(color: Colors.black87, opacity: 1.0, size: 42),
+              unselectedIconTheme: const IconThemeData(color: Colors.black54, opacity: 1.0, size: 22),
               items: const [
                 BottomNavigationBarItem(label: 'Elixirs', icon: FaIcon(FontAwesomeIcons.flask)),
                 BottomNavigationBarItem(label: 'Houses', icon: FaIcon(FontAwesomeIcons.fortAwesome)),

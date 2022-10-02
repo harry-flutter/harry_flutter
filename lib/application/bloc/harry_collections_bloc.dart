@@ -21,9 +21,17 @@ class HarryCollectionsBloc extends Bloc<HarryCollectionsEvent, HarryCollectionsS
   Future<void> _onBootstrap(_Bootstrap event, Emitter<HarryCollectionsState> emit) async {
     emit(const HarryCollectionsState.loading());
     try {
-      final elixirs = await wizardWorldRepository.fetchAllElixirs();
-      final houses = await wizardWorldRepository.fetchAllHouses();
-      emit(HarryCollectionsState.loaded(elixirs: elixirs, houses: houses));
+      final List<List<dynamic>> result = await Future.wait([
+        wizardWorldRepository.fetchAllElixirs(),
+        wizardWorldRepository.fetchAllHouses(),
+      ]);
+      final elixirs = result[0] as List<Elixir>;
+      final houses = result[1] as List<House>;
+
+      emit(HarryCollectionsState.loaded(
+        elixirs: elixirs,
+        houses: houses,
+      ));
     } on DioError catch (e) {
       emit(HarryCollectionsState.error('Network error: ${e.message}'));
     } catch (e) {
