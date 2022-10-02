@@ -6,21 +6,21 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../application/bloc/user_auth_bloc.dart';
 import '../../application/injection_module/injection_container.dart';
 import '../../application/navigation/app_router.gr.dart';
-import '../../data/repository/settings_repository.dart';
+import '../../data/repositories/settings_repository.dart';
 
 class HomePage extends StatefulWidget {
-  HomePage({super.key});
-
-  final settingsRepository = sl<SettingsRepository>();
+  const HomePage({super.key});
 
   @override
   State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
+  final settingsRepository = sl<SettingsRepository>();
+
   @override
   Widget build(BuildContext context) {
-    String login = widget.settingsRepository.getLogin();
+    String login = settingsRepository.getLogin();
 
     return AutoTabsRouter(
       routes: const [

@@ -4,7 +4,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../data/models/elixir.dart';
 import '../../data/models/house.dart';
-import '../../data/repository/wizard_world_repository.dart';
+import '../../data/repositories/wizard_world_repository.dart';
 import '../injection_module/injection_container.dart';
 
 part 'harry_collections_bloc.freezed.dart';

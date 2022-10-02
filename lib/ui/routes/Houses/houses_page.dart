@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../application/bloc/harry_collections_bloc.dart';
 import '../../../application/injection_module/injection_container.dart';
-import '../../../data/repository/settings_repository.dart';
+import '../../../data/repositories/settings_repository.dart';
 
 class HousesPage extends StatefulWidget {
   const HousesPage({Key? key}) : super(key: key);

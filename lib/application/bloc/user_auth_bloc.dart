@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../../data/repository/settings_repository.dart';
+import '../../data/repositories/settings_repository.dart';
 
 part 'user_auth_bloc.freezed.dart';
 part 'user_auth_event.dart';
