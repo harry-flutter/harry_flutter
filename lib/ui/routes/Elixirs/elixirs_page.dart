@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
 
 import '../../../application/bloc/harry_collections_bloc.dart';
 import '../../../application/injection_module/injection_container.dart';
@@ -16,12 +17,16 @@ class ElixirsPage extends StatefulWidget {
 class _ElixirsPageState extends State<ElixirsPage> {
   final settingsRepository = sl<SettingsRepository>();
 
+  late ScrollController _controller;
+
   String? lastId;
 
   List<String> favorites = [];
 
   @override
   void initState() {
+    _controller = ScrollController();
+
     _getFavorites();
     super.initState();
   }
@@ -56,9 +61,11 @@ class _ElixirsPageState extends State<ElixirsPage> {
           loaded: ((data) {
             final elixirs = data.elixirs;
 
-            return NotificationListener<ScrollEndNotification>(
+            return LazyLoadScrollView(
               child: Scrollbar(
+                controller: _controller,
                 child: ListView.builder(
+                  controller: _controller,
                   itemBuilder: ((BuildContext context, int index) {
                     final item = elixirs[index];
                     final isFavorite = favorites.contains(item.id);
@@ -81,12 +88,8 @@ class _ElixirsPageState extends State<ElixirsPage> {
                   itemCount: elixirs.length,
                 ),
               ),
-              onNotification: (scrollEnd) {
-                final metrics = scrollEnd.metrics;
-                if (metrics.atEdge && metrics.pixels != 0) {
-                  harryCollectionsBloc.add(HarryCollectionsEvent.pullElixirs(count: 10, lastId: lastId));
-                }
-                return true;
+              onEndOfPage: () {
+                harryCollectionsBloc.add(HarryCollectionsEvent.pullElixirs(count: 10, lastId: lastId));
               },
             );
           }),
