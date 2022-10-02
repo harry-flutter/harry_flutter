@@ -18,7 +18,7 @@ class WizardWorldApiClient {
       final response = await _dio.get<List<dynamic>>(_elixirsUrl);
       var elixirs = <Elixir>[];
       if (response.statusCode == 200) {
-        for (final v in response.data as List<dynamic>) {
+        for (final v in response.data!) {
           elixirs.add(Elixir.fromJson(v));
         }
         return elixirs;
@@ -35,7 +35,7 @@ class WizardWorldApiClient {
       final response = await _dio.get<List<dynamic>>(_housesUrl);
       var houses = <House>[];
       if (response.statusCode == 200) {
-        for (final v in response.data as List<dynamic>) {
+        for (final v in response.data!) {
           houses.add(House.fromJson(v));
         }
         return houses;

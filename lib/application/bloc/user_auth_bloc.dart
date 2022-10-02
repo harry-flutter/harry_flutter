@@ -1,31 +1,39 @@
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:hive_flutter/hive_flutter.dart';
+
+import '../../data/repository/settings_repository.dart';
 
 part 'user_auth_bloc.freezed.dart';
 part 'user_auth_event.dart';
 part 'user_auth_state.dart';
 
-const demoDomain = '@domain.com';
-const demoPassword = 'password';
+const validMailDomain = '@domain.com';
+const validPassword = 'password';
 
 class UserAuthBloc extends Bloc<UserAuthEvent, UserAuthState> {
-  final Box<dynamic> authBox;
+  final SettingsRepository settingsRepository;
 
   UserAuthBloc({
-    required this.authBox,
-  }) : super(authBox.get('login', defaultValue: '') == '' ? const _Unauthorized() : _Authorized(authBox.get('login'))) {
+    required this.settingsRepository,
+  }) : super(
+          settingsRepository.getLogin() == ''
+              ? const _Unauthorized()
+              : _Authorized(
+                  settingsRepository.getLogin(),
+                ),
+        ) {
     on<_SignIn>(_onSignIn);
     on<_Logout>(_onLogout);
   }
 
   Future<void> _onSignIn(_SignIn event, Emitter<UserAuthState> emit) async {
-    await Future.delayed(const Duration(milliseconds: 500));
-
     final login = event.login;
     final password = event.password;
-    if (login.endsWith(demoDomain) && password == demoPassword) {
-      await authBox.put('login', login);
+
+    await Future.delayed(const Duration(milliseconds: 500));
+
+    if (login.endsWith(validMailDomain) && password == validPassword) {
+      await settingsRepository.setLogin(login);
       emit(UserAuthState.authorized(login));
     } else {
       emit(const UserAuthState.unauthorized());
@@ -33,9 +41,9 @@ class UserAuthBloc extends Bloc<UserAuthEvent, UserAuthState> {
   }
 
   Future<void> _onLogout(_Logout event, Emitter emit) async {
-    await authBox.put('login', '');
     await Future.delayed(const Duration(milliseconds: 500));
 
+    await settingsRepository.setLogin('');
     emit(const UserAuthState.unauthorized());
   }
 }

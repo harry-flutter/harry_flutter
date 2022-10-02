@@ -2,15 +2,16 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 
 import '../../application/bloc/user_auth_bloc.dart';
+import '../../application/injection_module/injection_container.dart';
 import '../../application/navigation/app_router.gr.dart';
+import '../../data/repository/settings_repository.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({super.key});
 
-  final authBox = Hive.box('auth');
+  final settingsRepository = sl<SettingsRepository>();
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -19,7 +20,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    String login = widget.authBox.get('login', defaultValue: '');
+    String login = widget.settingsRepository.getLogin();
 
     return AutoTabsRouter(
       routes: const [
