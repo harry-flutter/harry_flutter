@@ -30,6 +30,30 @@ class WizardWorldApiClient {
     }
   }
 
+  Future<List<Elixir>> fetchPartElixirs(String? lastId, int count) async {
+    try {
+      final response = await _dio.get<List<dynamic>>(_elixirsUrl);
+      var elixirs = <Elixir>[];
+      if (response.statusCode == 200) {
+        for (final v in response.data!) {
+          elixirs.add(Elixir.fromJson(v));
+        }
+
+        if (lastId != null) {
+          final index = elixirs.indexWhere((element) => element.id == lastId);
+          if (index != -1) {
+            return elixirs.sublist(index + 1, (index + 1) + count);
+          }
+        }
+        return elixirs.sublist(0, count);
+      } else {
+        throw ElixirsRequestFailure();
+      }
+    } catch (error) {
+      throw ElixirsRequestFailure();
+    }
+  }
+
   Future<List<House>> fetchAllHouses() async {
     try {
       final response = await _dio.get<List<dynamic>>(_housesUrl);

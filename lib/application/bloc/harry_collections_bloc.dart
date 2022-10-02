@@ -16,13 +16,14 @@ class HarryCollectionsBloc extends Bloc<HarryCollectionsEvent, HarryCollectionsS
 
   HarryCollectionsBloc() : super(const _Initial()) {
     on<_Bootstrap>(_onBootstrap);
+    on<_PullElixirs>(_onPullElixirs);
   }
 
   Future<void> _onBootstrap(_Bootstrap event, Emitter<HarryCollectionsState> emit) async {
     emit(const HarryCollectionsState.loading());
     try {
       final List<List<dynamic>> result = await Future.wait([
-        wizardWorldRepository.fetchAllElixirs(),
+        wizardWorldRepository.fetchElixirs(lastId: null, count: 20),
         wizardWorldRepository.fetchAllHouses(),
       ]);
       final elixirs = result[0] as List<Elixir>;
@@ -32,6 +33,25 @@ class HarryCollectionsBloc extends Bloc<HarryCollectionsEvent, HarryCollectionsS
         elixirs: elixirs,
         houses: houses,
       ));
+    } on DioError catch (e) {
+      emit(HarryCollectionsState.error('Network error: ${e.message}'));
+    } catch (e) {
+      emit(HarryCollectionsState.error('System error: $e'));
+    }
+  }
+
+  Future<void> _onPullElixirs(_PullElixirs event, Emitter<HarryCollectionsState> emit) async {
+    final count = event.count;
+    final lastId = event.lastId;
+    try {
+      final List<Elixir> newElixirs = await wizardWorldRepository.fetchElixirs(lastId: lastId, count: count);
+      final newState = state.maybeMap(
+        loaded: (innerState) {
+          return innerState.copyWith(elixirs: [...innerState.elixirs, ...newElixirs]);
+        },
+        orElse: () => state,
+      );
+      emit(newState);
     } on DioError catch (e) {
       emit(HarryCollectionsState.error('Network error: ${e.message}'));
     } catch (e) {

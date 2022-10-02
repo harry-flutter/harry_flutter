@@ -16,6 +16,8 @@ class ElixirsPage extends StatefulWidget {
 class _ElixirsPageState extends State<ElixirsPage> {
   final settingsRepository = sl<SettingsRepository>();
 
+  String? lastId;
+
   List<String> favorites = [];
 
   @override
@@ -32,7 +34,16 @@ class _ElixirsPageState extends State<ElixirsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<HarryCollectionsBloc, HarryCollectionsState>(
+    final harryCollectionsBloc = context.read<HarryCollectionsBloc>();
+
+    return BlocConsumer<HarryCollectionsBloc, HarryCollectionsState>(
+      listener: (context, state) {
+        state.mapOrNull(loaded: ((value) {
+          setState(() {
+            lastId = value.elixirs.last.id;
+          });
+        }));
+      },
       builder: (context, state) {
         return state.maybeMap(
           orElse: () {
@@ -44,27 +55,39 @@ class _ElixirsPageState extends State<ElixirsPage> {
           },
           loaded: ((data) {
             final elixirs = data.elixirs;
-            return ListView.builder(
-              itemBuilder: ((BuildContext context, int index) {
-                final item = elixirs[index];
-                final isFavorite = favorites.contains(item.id);
-                return ListTile(
-                  title: Text(item.name ?? 'Empty name'),
-                  trailing: _renderDifficultyLabel(item),
-                  subtitle: _renderIngredientsLabel(item),
-                  isThreeLine: true,
-                  selected: isFavorite,
-                  onTap: () {
-                    if (isFavorite) {
-                      settingsRepository.removeFavoriteElixir(item.id ?? '');
-                    } else {
-                      settingsRepository.addFavoriteElixir(item.id ?? '');
-                    }
-                    _getFavorites();
-                  },
-                );
-              }),
-              itemCount: elixirs.length,
+
+            return NotificationListener<ScrollEndNotification>(
+              child: Scrollbar(
+                child: ListView.builder(
+                  itemBuilder: ((BuildContext context, int index) {
+                    final item = elixirs[index];
+                    final isFavorite = favorites.contains(item.id);
+                    return ListTile(
+                      title: Text(item.name ?? 'Empty name'),
+                      trailing: _renderDifficultyLabel(item),
+                      subtitle: _renderIngredientsLabel(item),
+                      isThreeLine: true,
+                      selected: isFavorite,
+                      onTap: () {
+                        if (isFavorite) {
+                          settingsRepository.removeFavoriteElixir(item.id ?? '');
+                        } else {
+                          settingsRepository.addFavoriteElixir(item.id ?? '');
+                        }
+                        _getFavorites();
+                      },
+                    );
+                  }),
+                  itemCount: elixirs.length,
+                ),
+              ),
+              onNotification: (scrollEnd) {
+                final metrics = scrollEnd.metrics;
+                if (metrics.atEdge && metrics.pixels != 0) {
+                  harryCollectionsBloc.add(HarryCollectionsEvent.pullElixirs(count: 10, lastId: lastId));
+                }
+                return true;
+              },
             );
           }),
         );

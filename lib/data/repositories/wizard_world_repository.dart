@@ -9,8 +9,8 @@ import '../wizard_world_api_client.dart';
 class WizardWorldRepository {
   final WizardWorldApiClient _wizardWorldApiClient = sl<WizardWorldApiClient>();
 
-  Future<List<Elixir>> fetchAllElixirs() async {
-    return _wizardWorldApiClient.fetchAllElixirs();
+  Future<List<Elixir>> fetchElixirs({String? lastId, required int count}) async {
+    return _wizardWorldApiClient.fetchPartElixirs(lastId, count);
   }
 
   Future<List<House>> fetchAllHouses() async {
