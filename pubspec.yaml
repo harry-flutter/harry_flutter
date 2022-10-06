@@ -57,6 +57,7 @@ dependencies:
   font_awesome_flutter: ^10.2.1
 
   lazy_load_scrollview: ^1.3.0
+  shimmer: ^2.0.0
 
   shared_preferences: ^2.0.15
 

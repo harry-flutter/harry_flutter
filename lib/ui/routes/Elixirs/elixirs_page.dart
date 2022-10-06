@@ -6,6 +6,7 @@ import '../../../application/bloc/harry_collections_bloc.dart';
 import '../../../application/injection_module/injection_container.dart';
 import '../../../data/models/elixir.dart';
 import '../../../data/repositories/settings_repository.dart';
+import 'skeleton.dart';
 
 class ElixirsPage extends StatefulWidget {
   const ElixirsPage({Key? key}) : super(key: key);
@@ -54,11 +55,7 @@ class _ElixirsPageState extends State<ElixirsPage> {
       builder: (context, state) {
         return state.maybeMap(
           orElse: () {
-            return const Center(
-              child: CircularProgressIndicator(
-                color: Colors.black,
-              ),
-            );
+            return const Skeleton();
           },
           loaded: ((data) {
             final elixirs = data.elixirs;

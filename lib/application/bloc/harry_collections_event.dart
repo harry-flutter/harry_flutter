@@ -7,7 +7,7 @@ enum SortOrderTypes {
 
 @freezed
 class HarryCollectionsEvent with _$HarryCollectionsEvent {
-  const factory HarryCollectionsEvent.bootstrap() = _Bootstrap;
+  const factory HarryCollectionsEvent.init() = _Init;
   const factory HarryCollectionsEvent.pullElixirs({
     String? lastId,
     required int count,

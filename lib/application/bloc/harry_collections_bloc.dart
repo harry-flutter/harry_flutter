@@ -15,14 +15,17 @@ class HarryCollectionsBloc extends Bloc<HarryCollectionsEvent, HarryCollectionsS
   final WizardWorldRepository wizardWorldRepository = sl<WizardWorldRepository>();
 
   HarryCollectionsBloc() : super(const _Initial()) {
-    on<_Bootstrap>(_onBootstrap);
+    on<_Init>(_onInit);
     on<_PullElixirs>(_onPullElixirs);
   }
 
-  Future<void> _onBootstrap(_Bootstrap event, Emitter<HarryCollectionsState> emit) async {
+  Future<void> _onInit(_Init event, Emitter<HarryCollectionsState> emit) async {
     const initialOrderType = SortOrderTypes.asc;
+
     emit(const HarryCollectionsState.loading());
+
     try {
+      await Future.delayed(const Duration(milliseconds: 3000));
       final List<List<dynamic>> result = await Future.wait([
         wizardWorldRepository.fetchElixirs(lastId: null, count: 20, orderType: initialOrderType),
         wizardWorldRepository.fetchAllHouses(),
