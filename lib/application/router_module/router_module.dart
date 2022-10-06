@@ -1,5 +1,4 @@
 import 'package:injectable/injectable.dart';
-
 import '../navigation/app_router.gr.dart';
 
 @module

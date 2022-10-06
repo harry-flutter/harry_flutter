@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:harry_flutter/src/routes/home_page.dart';
 
 import '../application/injection_module/injection_container.dart';
 import '../application/navigation/app_router.gr.dart';
@@ -24,6 +23,8 @@ class MyApp extends StatelessWidget {
       value: _wizardWorldRepository,
       child: MultiBlocProvider(
         providers: [
+          BlocProvider<UserAuthBloc>(
+              create: (BuildContext context) => UserAuthBloc()),
           BlocProvider<HarryCollectionsBloc>(
             create: (BuildContext context) => HarryCollectionsBloc(
                 wizardWorldRepository: _wizardWorldRepository)
@@ -44,7 +45,7 @@ class MyApp extends StatelessWidget {
                 return state.maybeMap(orElse: () {
                   return const LoginPage();
                 }, authorized: (login) {
-                  return const HomePage();
+                  return router!;
                 });
               },
             );
