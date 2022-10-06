@@ -5,6 +5,8 @@ class WizardsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Center(child: Text('Wizards'));
+    return Container(
+      child: const Text('Wizards Page'),
+    );
   }
 }
