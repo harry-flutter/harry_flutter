@@ -20,10 +20,11 @@ class HarryCollectionsBloc extends Bloc<HarryCollectionsEvent, HarryCollectionsS
   }
 
   Future<void> _onBootstrap(_Bootstrap event, Emitter<HarryCollectionsState> emit) async {
+    const initialOrderType = SortOrderTypes.asc;
     emit(const HarryCollectionsState.loading());
     try {
       final List<List<dynamic>> result = await Future.wait([
-        wizardWorldRepository.fetchElixirs(lastId: null, count: 20),
+        wizardWorldRepository.fetchElixirs(lastId: null, count: 20, orderType: initialOrderType),
         wizardWorldRepository.fetchAllHouses(),
       ]);
       final elixirs = result[0] as List<Elixir>;
@@ -32,6 +33,7 @@ class HarryCollectionsBloc extends Bloc<HarryCollectionsEvent, HarryCollectionsS
       emit(HarryCollectionsState.loaded(
         elixirs: elixirs,
         houses: houses,
+        orderType: initialOrderType,
       ));
     } on DioError catch (e) {
       emit(HarryCollectionsState.error('Network error: ${e.message}'));
@@ -43,11 +45,22 @@ class HarryCollectionsBloc extends Bloc<HarryCollectionsEvent, HarryCollectionsS
   Future<void> _onPullElixirs(_PullElixirs event, Emitter<HarryCollectionsState> emit) async {
     final count = event.count;
     final lastId = event.lastId;
+    final orderType = event.orderType;
+
     try {
-      final List<Elixir> newElixirs = await wizardWorldRepository.fetchElixirs(lastId: lastId, count: count);
+      final List<Elixir> newElixirs = await wizardWorldRepository.fetchElixirs(
+        lastId: lastId,
+        count: count,
+        orderType: orderType,
+      );
+
       final newState = state.maybeMap(
         loaded: (innerState) {
-          return innerState.copyWith(elixirs: [...innerState.elixirs, ...newElixirs]);
+          if (innerState.orderType == orderType) {
+            return innerState.copyWith(elixirs: [...innerState.elixirs, ...newElixirs]);
+          } else {
+            return innerState.copyWith(elixirs: [...newElixirs], orderType: orderType);
+          }
         },
         orElse: () => state,
       );

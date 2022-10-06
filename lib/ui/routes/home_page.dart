@@ -52,10 +52,7 @@ class _HomePageState extends State<HomePage> {
             ),
             body: FadeTransition(
               opacity: animation,
-              child: Padding(
-                padding: const EdgeInsets.only(top: 16.0),
-                child: child,
-              ),
+              child: child,
             ),
             bottomNavigationBar: BottomNavigationBar(
               type: BottomNavigationBarType.fixed,

@@ -21,6 +21,8 @@ class _ElixirsPageState extends State<ElixirsPage> {
 
   String? lastId;
 
+  SortOrderTypes _orderType = SortOrderTypes.asc;
+
   List<String> favorites = [];
 
   @override
@@ -61,41 +63,109 @@ class _ElixirsPageState extends State<ElixirsPage> {
           loaded: ((data) {
             final elixirs = data.elixirs;
 
-            return LazyLoadScrollView(
-              child: Scrollbar(
-                controller: _controller,
-                child: ListView.builder(
-                  controller: _controller,
-                  itemBuilder: ((BuildContext context, int index) {
-                    final item = elixirs[index];
-                    final isFavorite = favorites.contains(item.id);
-                    return ListTile(
-                      title: Text(item.name ?? 'Empty name'),
-                      trailing: _renderDifficultyLabel(item),
-                      subtitle: _renderIngredientsLabel(item),
-                      isThreeLine: true,
-                      selected: isFavorite,
-                      onTap: () {
-                        if (isFavorite) {
-                          settingsRepository.removeFavoriteElixir(item.id ?? '');
-                        } else {
-                          settingsRepository.addFavoriteElixir(item.id ?? '');
-                        }
-                        _getFavorites();
-                      },
-                    );
-                  }),
-                  itemCount: elixirs.length,
+            return Column(
+              children: [
+                _renderHeader(context),
+                Expanded(
+                  child: LazyLoadScrollView(
+                    child: Scrollbar(
+                      controller: _controller,
+                      child: ListView.builder(
+                        controller: _controller,
+                        itemBuilder: ((BuildContext context, int index) {
+                          final item = elixirs[index];
+                          final isFavorite = favorites.contains(item.id);
+                          return ListTile(
+                            title: Text(item.name ?? 'Empty name'),
+                            trailing: _renderDifficultyLabel(item),
+                            subtitle: _renderIngredientsLabel(item),
+                            isThreeLine: true,
+                            selected: isFavorite,
+                            onTap: () {
+                              if (isFavorite) {
+                                settingsRepository.removeFavoriteElixir(item.id ?? '');
+                              } else {
+                                settingsRepository.addFavoriteElixir(item.id ?? '');
+                              }
+                              _getFavorites();
+                            },
+                          );
+                        }),
+                        itemCount: elixirs.length,
+                      ),
+                    ),
+                    onEndOfPage: () {
+                      harryCollectionsBloc.add(HarryCollectionsEvent.pullElixirs(
+                        count: 10,
+                        lastId: lastId,
+                        orderType: _orderType,
+                      ));
+                    },
+                  ),
                 ),
-              ),
-              onEndOfPage: () {
-                harryCollectionsBloc.add(HarryCollectionsEvent.pullElixirs(count: 10, lastId: lastId));
-              },
+              ],
             );
           }),
         );
       },
     );
+  }
+
+  Widget _renderHeader(BuildContext context) {
+    final harryCollectionsBloc = context.read<HarryCollectionsBloc>();
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          const Text('Elixirs', style: TextStyle(fontSize: 26.0)),
+          PopupMenuButton<SortOrderTypes>(
+            padding: EdgeInsets.zero,
+            initialValue: _orderType,
+            onSelected: (value) {
+              setState(() {
+                _orderType = value;
+                lastId = null;
+              });
+              harryCollectionsBloc.add(
+                HarryCollectionsEvent.pullElixirs(
+                  count: 10,
+                  lastId: lastId,
+                  orderType: value,
+                ),
+              );
+              _scrollToTop();
+            },
+            itemBuilder: (context) => <PopupMenuItem<SortOrderTypes>>[
+              PopupMenuItem<SortOrderTypes>(
+                value: SortOrderTypes.asc,
+                child: Text(simpleValueToString(
+                  context,
+                  SortOrderTypes.asc,
+                )),
+              ),
+              PopupMenuItem<SortOrderTypes>(
+                value: SortOrderTypes.desc,
+                child: Text(simpleValueToString(
+                  context,
+                  SortOrderTypes.desc,
+                )),
+              ),
+            ],
+            child: const Icon(
+              Icons.sort_by_alpha,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  String simpleValueToString(BuildContext context, SortOrderTypes value) {
+    return {
+      SortOrderTypes.asc: 'Ascending order',
+      SortOrderTypes.desc: 'Descending order',
+    }[value]!;
   }
 
   Widget _renderDifficultyLabel(Elixir elixir) {
@@ -123,5 +193,9 @@ class _ElixirsPageState extends State<ElixirsPage> {
   Widget _renderIngredientsLabel(Elixir elixir) {
     String label = elixir.ingredients!.map((e) => e.name).join(', ');
     return Text(label);
+  }
+
+  void _scrollToTop() {
+    _controller.jumpTo(0);
   }
 }
