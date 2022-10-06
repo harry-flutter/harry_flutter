@@ -1,10 +1,11 @@
 import 'package:auto_route/auto_route.dart';
-import '../../src/routes/Elixirs/elixirs_page.dart';
-import '../../src/routes/Houses/houses_page.dart';
-import '../../src/routes/Ingredients/ingridients_page.dart';
-import '../../src/routes/Spells/spells_page.dart';
-import '../../src/routes/Wizards/wizards_page.dart';
-import '../../src/routes/home_page.dart';
+
+import '../../ui/routes/Elixirs/elixirs_page.dart';
+import '../../ui/routes/Houses/houses_page.dart';
+import '../../ui/routes/Ingredients/ingridients_page.dart';
+import '../../ui/routes/Spells/spells_page.dart';
+import '../../ui/routes/Wizards/wizards_page.dart';
+import '../../ui/routes/home_page.dart';
 
 @CustomAutoRouter(
   transitionsBuilder: TransitionsBuilders.fadeIn,

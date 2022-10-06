@@ -14,12 +14,12 @@
 import 'package:auto_route/auto_route.dart' as _i7;
 import 'package:flutter/material.dart' as _i8;
 
-import '../../src/routes/Elixirs/elixirs_page.dart' as _i2;
-import '../../src/routes/home_page.dart' as _i1;
-import '../../src/routes/Houses/houses_page.dart' as _i3;
-import '../../src/routes/Ingredients/ingridients_page.dart' as _i4;
-import '../../src/routes/Spells/spells_page.dart' as _i5;
-import '../../src/routes/Wizards/wizards_page.dart' as _i6;
+import '../../ui/routes/Elixirs/elixirs_page.dart' as _i2;
+import '../../ui/routes/home_page.dart' as _i1;
+import '../../ui/routes/Houses/houses_page.dart' as _i3;
+import '../../ui/routes/Ingredients/ingridients_page.dart' as _i4;
+import '../../ui/routes/Spells/spells_page.dart' as _i5;
+import '../../ui/routes/Wizards/wizards_page.dart' as _i6;
 
 class AppRouter extends _i7.RootStackRouter {
   AppRouter([_i8.GlobalKey<_i8.NavigatorState>? navigatorKey])

@@ -20,10 +20,12 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider<UserAuthBloc>(
-          create: (BuildContext context) => UserAuthBloc(settingsRepository: settingsRepository),
+          create: (BuildContext context) =>
+              UserAuthBloc(settingsRepository: settingsRepository),
         ),
         BlocProvider<HarryCollectionsBloc>(
-          create: (BuildContext context) => HarryCollectionsBloc()..add(const HarryCollectionsEvent.bootstrap()),
+          create: (BuildContext context) => HarryCollectionsBloc()
+            ..add(const HarryCollectionsEvent.bootstrap()),
           lazy: false,
         ),
       ],
