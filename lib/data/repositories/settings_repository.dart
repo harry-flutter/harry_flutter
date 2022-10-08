@@ -26,12 +26,16 @@ class SettingsRepository {
     _clearList(favoriteElixirsKey);
   }
 
-  Future<void> addFavoriteElixir(String value) async {
-    _addToList(favoriteElixirsKey, value);
+  Future<void> addFavoriteElixir(String? value) async {
+    if (value != null) {
+      _addToList(favoriteElixirsKey, value);
+    }
   }
 
-  Future<void> removeFavoriteElixir(String value) async {
-    _removeFromList(favoriteElixirsKey, value);
+  Future<void> removeFavoriteElixir(String? value) async {
+    if (value != null) {
+      _removeFromList(favoriteElixirsKey, value);
+    }
   }
 
   List<String> getFavoriteHouses() {

@@ -1,9 +1,11 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
 
 import '../../../application/bloc/harry_collections_bloc.dart';
 import '../../../application/injection_module/injection_container.dart';
+import '../../../application/navigation/app_router.gr.dart';
 import '../../../data/models/elixir.dart';
 import '../../../data/repositories/settings_repository.dart';
 import 'skeleton.dart';
@@ -91,12 +93,20 @@ class _ElixirsPageState extends State<ElixirsPage> {
                             isThreeLine: true,
                             selected: isFavorite,
                             onTap: () {
-                              if (isFavorite) {
-                                settingsRepository.removeFavoriteElixir(item.id ?? '');
-                              } else {
-                                settingsRepository.addFavoriteElixir(item.id ?? '');
+                              onToggleFavorite() {
+                                if (isFavorite) {
+                                  settingsRepository.removeFavoriteElixir(item.id);
+                                } else {
+                                  settingsRepository.addFavoriteElixir(item.id);
+                                }
+                                _getFavorites();
                               }
-                              _getFavorites();
+
+                              AutoRouter.of(context).push(ElixirDetailsPageRoute(
+                                elixir: item,
+                                isFavorite: isFavorite,
+                                onToggleFavorite: onToggleFavorite,
+                              ));
                             },
                           );
                         }),

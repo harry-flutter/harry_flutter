@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 
+import '../../ui/routes/ElixirDetails/elixir_details_page.dart';
 import '../../ui/routes/Elixirs/elixirs_page.dart';
 import '../../ui/routes/Houses/houses_page.dart';
 import '../../ui/routes/Ingredients/ingridients_page.dart';
@@ -13,31 +14,29 @@ import '../../ui/routes/home_page.dart';
   replaceInRouteName: 'Page,Route,Screen',
   routes: <AutoRoute>[
     AutoRoute(
-      path: "/home_page",
       page: HomePage,
       initial: true,
       children: [
         AutoRoute(
-          path: "elixirs_page",
           page: ElixirsPage,
         ),
         AutoRoute(
-          path: "houses-page",
           page: HousesPage,
         ),
         AutoRoute(
-          path: "ingridients-page",
           page: IngridientsPage,
         ),
         AutoRoute(
-          path: "spells-page",
           page: SpellsPage,
         ),
         AutoRoute(
-          path: "wizards-page",
           page: WizardsPage,
         ),
       ],
+    ),
+    CustomRoute(
+      page: ElixirDetailsPage,
+      transitionsBuilder: TransitionsBuilders.slideLeftWithFade,
     ),
   ],
 )
