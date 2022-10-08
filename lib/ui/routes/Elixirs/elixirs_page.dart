@@ -21,10 +21,11 @@ class _ElixirsPageState extends State<ElixirsPage> {
   late ScrollController _controller;
 
   String? lastId;
+  bool showOnlyFavorites = false;
 
   SortOrderTypes _orderType = SortOrderTypes.asc;
 
-  List<String> favorites = [];
+  List<String> favoriteIds = [];
 
   @override
   void initState() {
@@ -36,8 +37,18 @@ class _ElixirsPageState extends State<ElixirsPage> {
 
   void _getFavorites() {
     setState(() {
-      favorites = settingsRepository.getFavoriteElixirs();
+      favoriteIds = settingsRepository.getFavoriteElixirs();
     });
+  }
+
+  void toggleFavoriteMode() {
+    setState(() {
+      showOnlyFavorites = !showOnlyFavorites;
+    });
+  }
+
+  List<Elixir> getFilteredList(List<Elixir> elixirs) {
+    return showOnlyFavorites ? elixirs.where((element) => favoriteIds.contains(element.id)).toList() : elixirs;
   }
 
   @override
@@ -46,9 +57,10 @@ class _ElixirsPageState extends State<ElixirsPage> {
 
     return BlocConsumer<HarryCollectionsBloc, HarryCollectionsState>(
       listener: (context, state) {
-        state.mapOrNull(loaded: ((value) {
+        state.mapOrNull(loaded: ((data) {
+          final elixirs = getFilteredList(data.elixirs);
           setState(() {
-            lastId = value.elixirs.last.id;
+            elixirs.isNotEmpty ? lastId = elixirs.last.id : lastId = null;
           });
         }));
       },
@@ -58,7 +70,7 @@ class _ElixirsPageState extends State<ElixirsPage> {
             return const Skeleton();
           },
           loaded: ((data) {
-            final elixirs = data.elixirs;
+            final elixirs = getFilteredList(data.elixirs);
 
             return Column(
               children: [
@@ -71,7 +83,7 @@ class _ElixirsPageState extends State<ElixirsPage> {
                         controller: _controller,
                         itemBuilder: ((BuildContext context, int index) {
                           final item = elixirs[index];
-                          final isFavorite = favorites.contains(item.id);
+                          final isFavorite = favoriteIds.contains(item.id);
                           return ListTile(
                             title: Text(item.name ?? 'Empty name'),
                             trailing: _renderDifficultyLabel(item),
@@ -92,11 +104,13 @@ class _ElixirsPageState extends State<ElixirsPage> {
                       ),
                     ),
                     onEndOfPage: () {
-                      harryCollectionsBloc.add(HarryCollectionsEvent.pullElixirs(
-                        count: 10,
-                        lastId: lastId,
-                        orderType: _orderType,
-                      ));
+                      if (!showOnlyFavorites) {
+                        harryCollectionsBloc.add(HarryCollectionsEvent.pullElixirs(
+                          count: 10,
+                          lastId: lastId,
+                          orderType: _orderType,
+                        ));
+                      }
                     },
                   ),
                 ),
@@ -116,42 +130,53 @@ class _ElixirsPageState extends State<ElixirsPage> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           const Text('Elixirs', style: TextStyle(fontSize: 26.0)),
-          PopupMenuButton<SortOrderTypes>(
-            padding: EdgeInsets.zero,
-            initialValue: _orderType,
-            onSelected: (value) {
-              setState(() {
-                _orderType = value;
-                lastId = null;
-              });
-              harryCollectionsBloc.add(
-                HarryCollectionsEvent.pullElixirs(
-                  count: 10,
-                  lastId: lastId,
-                  orderType: value,
+          Row(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(right: 10.0),
+                child: GestureDetector(
+                  onTap: () => toggleFavoriteMode(),
+                  child: showOnlyFavorites ? const Icon(Icons.star) : const Icon(Icons.star_border),
                 ),
-              );
-              _scrollToTop();
-            },
-            itemBuilder: (context) => <PopupMenuItem<SortOrderTypes>>[
-              PopupMenuItem<SortOrderTypes>(
-                value: SortOrderTypes.asc,
-                child: Text(simpleValueToString(
-                  context,
-                  SortOrderTypes.asc,
-                )),
               ),
-              PopupMenuItem<SortOrderTypes>(
-                value: SortOrderTypes.desc,
-                child: Text(simpleValueToString(
-                  context,
-                  SortOrderTypes.desc,
-                )),
+              PopupMenuButton<SortOrderTypes>(
+                padding: EdgeInsets.zero,
+                initialValue: _orderType,
+                onSelected: (value) {
+                  setState(() {
+                    _orderType = value;
+                    lastId = null;
+                  });
+                  harryCollectionsBloc.add(
+                    HarryCollectionsEvent.pullElixirs(
+                      count: 10,
+                      lastId: lastId,
+                      orderType: value,
+                    ),
+                  );
+                  _scrollToTop();
+                },
+                itemBuilder: (context) => <PopupMenuItem<SortOrderTypes>>[
+                  PopupMenuItem<SortOrderTypes>(
+                    value: SortOrderTypes.asc,
+                    child: Text(simpleValueToString(
+                      context,
+                      SortOrderTypes.asc,
+                    )),
+                  ),
+                  PopupMenuItem<SortOrderTypes>(
+                    value: SortOrderTypes.desc,
+                    child: Text(simpleValueToString(
+                      context,
+                      SortOrderTypes.desc,
+                    )),
+                  ),
+                ],
+                child: const Icon(
+                  Icons.sort_by_alpha,
+                ),
               ),
             ],
-            child: const Icon(
-              Icons.sort_by_alpha,
-            ),
           ),
         ],
       ),

@@ -101,7 +101,7 @@ Widget _renderHeader(BuildContext context) {
     child: Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: const [
-        Text('Elixirs', style: TextStyle(fontSize: 26.0)),
+        Text('Houses', style: TextStyle(fontSize: 26.0)),
       ],
     ),
   );

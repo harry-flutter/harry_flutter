@@ -25,7 +25,6 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider<HarryCollectionsBloc>(
           create: (BuildContext context) => harryCollectionsBloc,
-          lazy: false,
         ),
       ],
       child: MaterialApp.router(
