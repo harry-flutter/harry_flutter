@@ -1,7 +1,10 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:share_plus/share_plus.dart';
 
 import '../../../data/models/elixir.dart';
+
+const sharePrefix = 'Бро! Зацени какой я Эликсир нашел:';
 
 class ElixirDetailsPage extends StatefulWidget {
   const ElixirDetailsPage({
@@ -45,7 +48,7 @@ class _ElixirDetailsPageState extends State<ElixirDetailsPage> {
 
   Padding _renderHeader(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 8.0, left: 4.0, right: 16.0),
+      padding: const EdgeInsets.only(top: 8.0, left: 4.0, right: 12.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -56,14 +59,25 @@ class _ElixirDetailsPageState extends State<ElixirDetailsPage> {
             },
           ),
           Text(widget.elixir!.name ?? ''),
-          GestureDetector(
-            onTap: (() {
-              widget.onToggleFavorite!.call(!isFavorite);
-              setState(() {
-                isFavorite = !isFavorite;
-              });
-            }),
-            child: isFavorite == true ? const Icon(Icons.star) : const Icon(Icons.star_border),
+          Row(
+            children: [
+              GestureDetector(
+                onTap: (() {
+                  Share.share('$sharePrefix ${widget.elixir!.name ?? ''}');
+                }),
+                child: const Icon(Icons.ios_share, size: 20),
+              ),
+              const SizedBox(width: 6),
+              GestureDetector(
+                onTap: (() {
+                  widget.onToggleFavorite!.call(!isFavorite);
+                  setState(() {
+                    isFavorite = !isFavorite;
+                  });
+                }),
+                child: isFavorite == true ? const Icon(Icons.star) : const Icon(Icons.star_border),
+              ),
+            ],
           ),
         ],
       ),
