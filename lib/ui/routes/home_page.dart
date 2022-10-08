@@ -24,7 +24,7 @@ class _HomePageState extends State<HomePage> {
 
     return AutoTabsRouter(
       routes: const [
-        ElixirsPageRoute(),
+        ElixirsRootPageRoute(),
         HousesPageRoute(),
         IngridientsPageRoute(),
         SpellsPageRoute(),

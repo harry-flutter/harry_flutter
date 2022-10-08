@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:auto_route/empty_router_widgets.dart';
 
 import '../../ui/routes/ElixirDetails/elixir_details_page.dart';
 import '../../ui/routes/Elixirs/elixirs_page.dart';
@@ -18,7 +19,18 @@ import '../../ui/routes/home_page.dart';
       initial: true,
       children: [
         AutoRoute(
-          page: ElixirsPage,
+          name: 'ElixirsRootPageRoute',
+          page: EmptyRouterPage,
+          children: [
+            AutoRoute(
+              page: ElixirsPage,
+              initial: true,
+            ),
+            CustomRoute(
+              page: ElixirDetailsPage,
+              transitionsBuilder: TransitionsBuilders.slideLeftWithFade,
+            ),
+          ],
         ),
         AutoRoute(
           page: HousesPage,
@@ -33,10 +45,6 @@ import '../../ui/routes/home_page.dart';
           page: WizardsPage,
         ),
       ],
-    ),
-    CustomRoute(
-      page: ElixirDetailsPage,
-      transitionsBuilder: TransitionsBuilders.slideLeftWithFade,
     ),
   ],
 )
