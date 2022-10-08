@@ -74,59 +74,14 @@ class _ElixirsPageState extends State<ElixirsPage> {
           loaded: ((data) {
             final elixirs = getFilteredList(data.elixirs);
 
-            return Column(
-              children: [
-                _renderHeader(context),
-                Expanded(
-                  child: LazyLoadScrollView(
-                    child: Scrollbar(
-                      controller: _controller,
-                      child: ListView.builder(
-                        controller: _controller,
-                        itemBuilder: ((BuildContext context, int index) {
-                          final item = elixirs[index];
-                          final isFavorite = favoriteIds.contains(item.id);
-                          return ListTile(
-                            title: Text(item.name ?? 'Empty name'),
-                            trailing: _renderDifficultyLabel(item),
-                            subtitle: _renderIngredientsLabel(item),
-                            isThreeLine: true,
-                            selected: isFavorite,
-                            onTap: () {
-                              onToggleFavorite(bool newValue) {
-                                if (newValue != isFavorite) {
-                                  if (newValue) {
-                                    settingsRepository.addFavoriteElixir(item.id);
-                                  } else {
-                                    settingsRepository.removeFavoriteElixir(item.id);
-                                  }
-                                  _getFavorites();
-                                }
-                              }
-
-                              AutoRouter.of(context).push(ElixirDetailsPageRoute(
-                                elixir: item,
-                                isFavorite: isFavorite,
-                                onToggleFavorite: onToggleFavorite,
-                              ));
-                            },
-                          );
-                        }),
-                        itemCount: elixirs.length,
-                      ),
-                    ),
-                    onEndOfPage: () {
-                      if (!showOnlyFavorites) {
-                        harryCollectionsBloc.add(HarryCollectionsEvent.pullElixirs(
-                          count: 10,
-                          lastId: lastId,
-                          orderType: _orderType,
-                        ));
-                      }
-                    },
-                  ),
-                ),
-              ],
+            return Container(
+              color: Colors.white,
+              child: Column(
+                children: [
+                  _renderHeader(context),
+                  _renderContent(elixirs, harryCollectionsBloc),
+                ],
+              ),
             );
           }),
         );
@@ -147,7 +102,7 @@ class _ElixirsPageState extends State<ElixirsPage> {
               Padding(
                 padding: const EdgeInsets.only(right: 10.0),
                 child: GestureDetector(
-                  onTap: () => toggleFavoriteMode(),
+                  onTap: toggleFavoriteMode,
                   child: showOnlyFavorites ? const Icon(Icons.star) : const Icon(Icons.star_border),
                 ),
               ),
@@ -193,6 +148,59 @@ class _ElixirsPageState extends State<ElixirsPage> {
             ],
           ),
         ],
+      ),
+    );
+  }
+
+  Expanded _renderContent(List<Elixir> elixirs, HarryCollectionsBloc harryCollectionsBloc) {
+    return Expanded(
+      child: LazyLoadScrollView(
+        child: Scrollbar(
+          controller: _controller,
+          child: ListView.builder(
+            controller: _controller,
+            itemBuilder: ((BuildContext context, int index) {
+              final item = elixirs[index];
+              final isFavorite = favoriteIds.contains(item.id);
+              return ListTile(
+                title: Text(item.name ?? 'Empty name'),
+                trailing: _renderDifficultyLabel(item),
+                subtitle: _renderIngredientsLabel(item),
+                isThreeLine: true,
+                selected: isFavorite,
+                onTap: () async {
+                  onToggleFavorite(bool newValue) {
+                    if (newValue != isFavorite) {
+                      if (newValue) {
+                        settingsRepository.addFavoriteElixir(item.id);
+                      } else {
+                        settingsRepository.removeFavoriteElixir(item.id);
+                      }
+                    }
+                  }
+
+                  await context.router.push(ElixirDetailsPageRoute(
+                    elixir: item,
+                    isFavorite: isFavorite,
+                    onToggleFavorite: onToggleFavorite,
+                  ));
+
+                  _getFavorites();
+                },
+              );
+            }),
+            itemCount: elixirs.length,
+          ),
+        ),
+        onEndOfPage: () {
+          if (!showOnlyFavorites) {
+            harryCollectionsBloc.add(HarryCollectionsEvent.pullElixirs(
+              count: 10,
+              lastId: lastId,
+              orderType: _orderType,
+            ));
+          }
+        },
       ),
     );
   }

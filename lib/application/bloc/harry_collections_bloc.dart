@@ -25,7 +25,7 @@ class HarryCollectionsBloc extends Bloc<HarryCollectionsEvent, HarryCollectionsS
     emit(const HarryCollectionsState.loading());
 
     try {
-      await Future.delayed(const Duration(milliseconds: 3000));
+      await Future.delayed(const Duration(milliseconds: 1500));
       final List<List<dynamic>> result = await Future.wait([
         wizardWorldRepository.fetchElixirs(lastId: null, count: 20, orderType: initialOrderType),
         wizardWorldRepository.fetchAllHouses(),

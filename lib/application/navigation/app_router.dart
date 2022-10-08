@@ -9,9 +9,7 @@ import '../../ui/routes/Spells/spells_page.dart';
 import '../../ui/routes/Wizards/wizards_page.dart';
 import '../../ui/routes/home_page.dart';
 
-@CustomAutoRouter(
-  transitionsBuilder: TransitionsBuilders.fadeIn,
-  durationInMilliseconds: 200,
+@CupertinoAutoRouter(
   replaceInRouteName: 'Page,Route,Screen',
   routes: <AutoRoute>[
     AutoRoute(
@@ -19,16 +17,15 @@ import '../../ui/routes/home_page.dart';
       initial: true,
       children: [
         AutoRoute(
-          name: 'ElixirsRootPageRoute',
+          name: 'ElixirsHomePageRoute',
           page: EmptyRouterPage,
           children: [
             AutoRoute(
               page: ElixirsPage,
               initial: true,
             ),
-            CustomRoute(
+            AutoRoute(
               page: ElixirDetailsPage,
-              transitionsBuilder: TransitionsBuilders.slideLeftWithFade,
             ),
           ],
         ),

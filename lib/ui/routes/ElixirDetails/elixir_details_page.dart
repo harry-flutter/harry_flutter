@@ -31,12 +31,15 @@ class _ElixirDetailsPageState extends State<ElixirDetailsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        _renderHeader(context),
-        _renderContent(),
-      ],
+    return Container(
+      color: Colors.white,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _renderHeader(context),
+          _renderContent(),
+        ],
+      ),
     );
   }
 
@@ -49,13 +52,13 @@ class _ElixirDetailsPageState extends State<ElixirDetailsPage> {
           IconButton(
             icon: const Icon(Icons.arrow_back_ios),
             onPressed: () {
-              widget.onToggleFavorite!.call(isFavorite);
               Navigator.of(context).pop();
             },
           ),
           Text(widget.elixir!.name ?? ''),
           GestureDetector(
             onTap: (() {
+              widget.onToggleFavorite!.call(!isFavorite);
               setState(() {
                 isFavorite = !isFavorite;
               });
