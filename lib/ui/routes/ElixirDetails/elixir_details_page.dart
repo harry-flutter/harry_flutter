@@ -13,7 +13,7 @@ class ElixirDetailsPage extends StatefulWidget {
 
   final Elixir? elixir;
   final bool? isFavorite;
-  final void Function()? onToggleFavorite;
+  final void Function(bool value)? onToggleFavorite;
 
   @override
   State<ElixirDetailsPage> createState() => _ElixirDetailsPageState();
@@ -33,14 +33,19 @@ class _ElixirDetailsPageState extends State<ElixirDetailsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_ios),
+          onPressed: () {
+            widget.onToggleFavorite!.call(isFavorite);
+            Navigator.of(context).pop();
+          },
+        ),
         title: Text(widget.elixir!.name ?? ''),
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 16.0),
             child: GestureDetector(
               onTap: (() {
-                widget.onToggleFavorite!();
-
                 setState(() {
                   isFavorite = !isFavorite;
                 });

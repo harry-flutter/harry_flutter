@@ -26,7 +26,7 @@ class Skeleton extends StatelessWidget {
                   baseColor: Colors.grey.shade300,
                   highlightColor: Colors.grey.shade100,
                   child: Container(
-                    padding: const EdgeInsets.symmetric(vertical: 20.0),
+                    padding: const EdgeInsets.symmetric(vertical: 16.0),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [

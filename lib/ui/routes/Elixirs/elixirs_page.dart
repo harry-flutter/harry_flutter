@@ -93,13 +93,15 @@ class _ElixirsPageState extends State<ElixirsPage> {
                             isThreeLine: true,
                             selected: isFavorite,
                             onTap: () {
-                              onToggleFavorite() {
-                                if (isFavorite) {
-                                  settingsRepository.removeFavoriteElixir(item.id);
-                                } else {
-                                  settingsRepository.addFavoriteElixir(item.id);
+                              onToggleFavorite(bool newValue) {
+                                if (newValue != isFavorite) {
+                                  if (newValue) {
+                                    settingsRepository.addFavoriteElixir(item.id);
+                                  } else {
+                                    settingsRepository.removeFavoriteElixir(item.id);
+                                  }
+                                  _getFavorites();
                                 }
-                                _getFavorites();
                               }
 
                               AutoRouter.of(context).push(ElixirDetailsPageRoute(
