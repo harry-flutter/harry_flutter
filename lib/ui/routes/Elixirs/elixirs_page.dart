@@ -142,6 +142,7 @@ class _ElixirsPageState extends State<ElixirsPage> {
               PopupMenuButton<SortOrderTypes>(
                 padding: EdgeInsets.zero,
                 initialValue: _orderType,
+                enabled: !showOnlyFavorites,
                 onSelected: (value) {
                   setState(() {
                     _orderType = value;
@@ -172,8 +173,9 @@ class _ElixirsPageState extends State<ElixirsPage> {
                     )),
                   ),
                 ],
-                child: const Icon(
+                child: Icon(
                   Icons.sort_by_alpha,
+                  color: showOnlyFavorites ? Colors.black26 : Colors.black,
                 ),
               ),
             ],
