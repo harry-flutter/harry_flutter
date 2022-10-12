@@ -1,5 +1,8 @@
+import 'dart:math';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:harry_flutter/application/assets/images.dart';
 import 'package:share_plus/share_plus.dart';
 
 import '../../../data/models/elixir.dart';
@@ -34,10 +37,9 @@ class _ElixirDetailsPageState extends State<ElixirDetailsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.white,
+    return SingleChildScrollView(
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           _renderHeader(context),
           _renderContent(),
@@ -75,7 +77,9 @@ class _ElixirDetailsPageState extends State<ElixirDetailsPage> {
                     isFavorite = !isFavorite;
                   });
                 }),
-                child: isFavorite == true ? const Icon(Icons.star) : const Icon(Icons.star_border),
+                child: isFavorite == true
+                    ? const Icon(Icons.star)
+                    : const Icon(Icons.star_border),
               ),
             ],
           ),
@@ -84,10 +88,61 @@ class _ElixirDetailsPageState extends State<ElixirDetailsPage> {
     );
   }
 
-  Padding _renderContent() {
+  Widget _renderContent() {
     return Padding(
       padding: const EdgeInsets.all(16.0),
-      child: Text('Elixir id ${widget.elixir!.id}'),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Image.asset(
+              ImagePaths.elixirs.elixirList[
+                  Random().nextInt(ImagePaths.elixirs.elixirList.length)],
+              height: 300),
+          Text(
+            '${widget.elixir!.name}',
+            style: const TextStyle(
+              fontFamily: 'HpHeaderFont',
+              fontSize: 50,
+            ),
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(
+            height: 24,
+          ),
+          const Text(
+            'Effect: ',
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          Text('${widget.elixir!.effect}'),
+
+          //  Text('${widget.elixir!.sideEffects}'),
+          const SizedBox(
+            height: 24,
+          ),
+          const Text(
+            'Characteristics: ',
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          Text('${widget.elixir!.characteristics}'),
+          Text('${widget.elixir!.time}'),
+          const Text(
+            'Ingridients',
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          ...widget.elixir!.ingredients!.map((e) {
+            return Text('${e.name}');
+          }).toList(),
+        ],
+      ),
     );
   }
 }
