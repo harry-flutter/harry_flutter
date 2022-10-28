@@ -22,8 +22,9 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider<UserAuthBloc>(
-          create: (BuildContext context) =>
-              UserAuthBloc(settingsRepository: settingsRepository),
+          create: (BuildContext context) => UserAuthBloc(
+            settingsRepository: settingsRepository,
+          ),
         ),
         BlocProvider<HarryCollectionsBloc>(
           create: (BuildContext context) => harryCollectionsBloc,
@@ -40,7 +41,13 @@ class MyApp extends StatelessWidget {
             builder: (context, state) {
               harryCollectionsBloc.add(const HarryCollectionsEvent.init());
               return state.maybeMap(orElse: () {
-                return const LoginPage();
+                return Overlay(
+                  initialEntries: [
+                    OverlayEntry(
+                      builder: (context) => const LoginPage(),
+                    ),
+                  ],
+                );
               }, authorized: (login) {
                 return router!;
               });
