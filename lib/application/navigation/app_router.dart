@@ -5,7 +5,6 @@ import '../../ui/routes/ElixirDetails/elixir_details_page.dart';
 import '../../ui/routes/Elixirs/elixirs_page.dart';
 import '../../ui/routes/Houses/houses_page.dart';
 import '../../ui/routes/Ingredients/ingridients_page.dart';
-import '../../ui/routes/Spells/spells_page.dart';
 import '../../ui/routes/Wizards/wizards_page.dart';
 import '../../ui/routes/home_page.dart';
 
@@ -34,9 +33,6 @@ import '../../ui/routes/home_page.dart';
         ),
         AutoRoute(
           page: IngridientsPage,
-        ),
-        AutoRoute(
-          page: SpellsPage,
         ),
         AutoRoute(
           page: WizardsPage,

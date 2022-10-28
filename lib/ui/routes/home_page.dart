@@ -27,7 +27,6 @@ class _HomePageState extends State<HomePage> {
         ElixirsHomePageRoute(),
         HousesPageRoute(),
         IngridientsPageRoute(),
-        SpellsPageRoute(),
         WizardsPageRoute(),
       ],
       builder: (context, child, animation) {
@@ -63,13 +62,12 @@ class _HomePageState extends State<HomePage> {
             },
             showSelectedLabels: false,
             selectedIconTheme: const IconThemeData(color: Colors.black, opacity: 1.0, size: 40),
-            selectedFontSize: 12,
+            selectedFontSize: 16.0,
             unselectedIconTheme: const IconThemeData(color: Colors.black54, opacity: 1.0, size: 24),
             items: const [
               BottomNavigationBarItem(label: 'Elixirs', icon: FaIcon(FontAwesomeIcons.flask)),
               BottomNavigationBarItem(label: 'Houses', icon: FaIcon(FontAwesomeIcons.fortAwesome)),
               BottomNavigationBarItem(label: 'Ingridients', icon: FaIcon(FontAwesomeIcons.cubesStacked)),
-              BottomNavigationBarItem(label: 'Spells', icon: FaIcon(FontAwesomeIcons.wandSparkles)),
               BottomNavigationBarItem(label: 'Wizards', icon: FaIcon(FontAwesomeIcons.hatWizard)),
             ],
           ),
