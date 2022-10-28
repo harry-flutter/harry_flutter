@@ -40,6 +40,7 @@ class _HomePageState extends State<HomePage> {
               login,
               style: const TextStyle(fontStyle: FontStyle.italic),
             ),
+            elevation: 0,
             actions: [
               Padding(
                 padding: const EdgeInsets.only(right: 16.0),
@@ -61,8 +62,9 @@ class _HomePageState extends State<HomePage> {
               tabsRouter.setActiveIndex(index);
             },
             showSelectedLabels: false,
-            selectedIconTheme: const IconThemeData(color: Colors.black87, opacity: 1.0, size: 42),
-            unselectedIconTheme: const IconThemeData(color: Colors.black54, opacity: 1.0, size: 22),
+            selectedIconTheme: const IconThemeData(color: Colors.black, opacity: 1.0, size: 40),
+            selectedFontSize: 12,
+            unselectedIconTheme: const IconThemeData(color: Colors.black54, opacity: 1.0, size: 24),
             items: const [
               BottomNavigationBarItem(label: 'Elixirs', icon: FaIcon(FontAwesomeIcons.flask)),
               BottomNavigationBarItem(label: 'Houses', icon: FaIcon(FontAwesomeIcons.fortAwesome)),

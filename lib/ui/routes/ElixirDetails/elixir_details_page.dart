@@ -1,6 +1,5 @@
-import 'dart:math';
-
 import 'package:auto_route/auto_route.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:harry_flutter/application/assets/images.dart';
 import 'package:share_plus/share_plus.dart';
@@ -37,13 +36,16 @@ class _ElixirDetailsPageState extends State<ElixirDetailsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          _renderHeader(context),
-          _renderContent(),
-        ],
+    return Container(
+      color: Colors.white,
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            _renderHeader(context),
+            _renderContent(),
+          ],
+        ),
       ),
     );
   }
@@ -60,7 +62,6 @@ class _ElixirDetailsPageState extends State<ElixirDetailsPage> {
               Navigator.of(context).pop();
             },
           ),
-          Text(widget.elixir!.name ?? ''),
           Row(
             children: [
               GestureDetector(
@@ -77,9 +78,7 @@ class _ElixirDetailsPageState extends State<ElixirDetailsPage> {
                     isFavorite = !isFavorite;
                   });
                 }),
-                child: isFavorite == true
-                    ? const Icon(Icons.star)
-                    : const Icon(Icons.star_border),
+                child: isFavorite == true ? const Icon(Icons.star) : const Icon(Icons.star_border),
               ),
             ],
           ),
@@ -94,10 +93,7 @@ class _ElixirDetailsPageState extends State<ElixirDetailsPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Image.asset(
-              ImagePaths.elixirs.elixirList[
-                  Random().nextInt(ImagePaths.elixirs.elixirList.length)],
-              height: 300),
+          _renderImage(),
           Text(
             '${widget.elixir!.name}',
             style: const TextStyle(
@@ -117,8 +113,6 @@ class _ElixirDetailsPageState extends State<ElixirDetailsPage> {
             ),
           ),
           Text('${widget.elixir!.effect}'),
-
-          //  Text('${widget.elixir!.sideEffects}'),
           const SizedBox(
             height: 24,
           ),
@@ -144,5 +138,16 @@ class _ElixirDetailsPageState extends State<ElixirDetailsPage> {
         ],
       ),
     );
+  }
+
+  Image _renderImage() {
+    // Генерируем псевдоуникальный индекс картинки на основе поля id.
+    final id = widget.elixir!.id;
+    final picId = id != null ? id.codeUnits.sum : 1;
+    final elixirsLength = ImagePaths.elixirs.elixirList.length;
+    final index = picId % elixirsLength;
+    final img = ImagePaths.elixirs.elixirList[index];
+
+    return Image.asset(img, height: 300);
   }
 }
