@@ -5,14 +5,14 @@ import '../../../application/bloc/harry_collections_bloc.dart';
 import '../../../application/injection_module/injection_container.dart';
 import '../../../data/repositories/settings_repository.dart';
 
-class HousesPage extends StatefulWidget {
-  const HousesPage({Key? key}) : super(key: key);
+class IngredientsPage extends StatefulWidget {
+  const IngredientsPage({Key? key}) : super(key: key);
 
   @override
-  State<HousesPage> createState() => _HousesPageState();
+  State<IngredientsPage> createState() => _IngredientsPageState();
 }
 
-class _HousesPageState extends State<HousesPage> {
+class _IngredientsPageState extends State<IngredientsPage> {
   final settingsRepository = sl<SettingsRepository>();
 
   late ScrollController _controller;
@@ -37,7 +37,7 @@ class _HousesPageState extends State<HousesPage> {
             );
           },
           loaded: ((data) {
-            final houses = data.houses;
+            final ingredients = data.ingredients;
 
             return Column(
               children: [
@@ -48,19 +48,17 @@ class _HousesPageState extends State<HousesPage> {
                     child: ListView.builder(
                       controller: _controller,
                       itemBuilder: ((BuildContext context, int index) {
-                        final item = houses[index];
+                        final item = ingredients[index];
                         return ListTile(
                           title: Text(
-                            item.name ?? 'Empty name',
+                            item.name ?? '',
                             style: const TextStyle(fontSize: 20.0),
                           ),
-                          trailing: Text(item.founder ?? ''),
-                          subtitle: Text(item.commonRoom ?? ''),
-                          isThreeLine: true,
                           onTap: () {},
+                          enableFeedback: false,
                         );
                       }),
-                      itemCount: houses.length,
+                      itemCount: ingredients.length,
                     ),
                   ),
                 ),
@@ -79,7 +77,7 @@ Widget _renderHeader(BuildContext context) {
     child: Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: const [
-        Text('Houses', style: TextStyle(fontSize: 26.0)),
+        Text('Ingredients', style: TextStyle(fontSize: 26.0)),
       ],
     ),
   );

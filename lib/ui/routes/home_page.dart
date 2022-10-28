@@ -26,7 +26,7 @@ class _HomePageState extends State<HomePage> {
       routes: const [
         ElixirsHomePageRoute(),
         HousesPageRoute(),
-        IngridientsPageRoute(),
+        IngredientsPageRoute(),
         WizardsPageRoute(),
       ],
       builder: (context, child, animation) {
@@ -67,7 +67,7 @@ class _HomePageState extends State<HomePage> {
             items: const [
               BottomNavigationBarItem(label: 'Elixirs', icon: FaIcon(FontAwesomeIcons.flask)),
               BottomNavigationBarItem(label: 'Houses', icon: FaIcon(FontAwesomeIcons.fortAwesome)),
-              BottomNavigationBarItem(label: 'Ingridients', icon: FaIcon(FontAwesomeIcons.cubesStacked)),
+              BottomNavigationBarItem(label: 'Ingredients', icon: FaIcon(FontAwesomeIcons.cubesStacked)),
               BottomNavigationBarItem(label: 'Wizards', icon: FaIcon(FontAwesomeIcons.hatWizard)),
             ],
           ),

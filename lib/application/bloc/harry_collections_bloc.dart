@@ -4,6 +4,8 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../data/models/elixir.dart';
 import '../../data/models/house.dart';
+import '../../data/models/ingredient.dart';
+import '../../data/models/wizard.dart';
 import '../../data/repositories/wizard_world_repository.dart';
 import '../injection_module/injection_container.dart';
 
@@ -29,14 +31,20 @@ class HarryCollectionsBloc extends Bloc<HarryCollectionsEvent, HarryCollectionsS
       final List<List<dynamic>> result = await Future.wait([
         wizardWorldRepository.fetchElixirs(lastId: null, count: 20, orderType: initialOrderType),
         wizardWorldRepository.fetchAllHouses(),
+        wizardWorldRepository.fetchAllIngredients(),
+        wizardWorldRepository.fetchAllWizards(),
       ]);
       final elixirs = result[0] as List<Elixir>;
       final houses = result[1] as List<House>;
+      final ingredients = result[2] as List<Ingredient>;
+      final wizards = result[3] as List<Wizard>;
 
       emit(HarryCollectionsState.loaded(
         elixirs: elixirs,
+        elixirsOrderType: initialOrderType,
         houses: houses,
-        orderType: initialOrderType,
+        ingredients: ingredients,
+        wizards: wizards,
       ));
     } on DioError catch (e) {
       emit(HarryCollectionsState.error('Network error: ${e.message}'));
@@ -59,10 +67,10 @@ class HarryCollectionsBloc extends Bloc<HarryCollectionsEvent, HarryCollectionsS
 
       final newState = state.maybeMap(
         loaded: (innerState) {
-          if (innerState.orderType == orderType) {
+          if (innerState.elixirsOrderType == orderType) {
             return innerState.copyWith(elixirs: [...innerState.elixirs, ...newElixirs]);
           } else {
-            return innerState.copyWith(elixirs: [...newElixirs], orderType: orderType);
+            return innerState.copyWith(elixirs: [...newElixirs], elixirsOrderType: orderType);
           }
         },
         orElse: () => state,

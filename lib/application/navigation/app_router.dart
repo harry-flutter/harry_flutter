@@ -4,7 +4,7 @@ import 'package:auto_route/empty_router_widgets.dart';
 import '../../ui/routes/ElixirDetails/elixir_details_page.dart';
 import '../../ui/routes/Elixirs/elixirs_page.dart';
 import '../../ui/routes/Houses/houses_page.dart';
-import '../../ui/routes/Ingredients/ingridients_page.dart';
+import '../../ui/routes/Ingredients/ingredients_page.dart';
 import '../../ui/routes/Wizards/wizards_page.dart';
 import '../../ui/routes/home_page.dart';
 
@@ -32,7 +32,7 @@ import '../../ui/routes/home_page.dart';
           page: HousesPage,
         ),
         AutoRoute(
-          page: IngridientsPage,
+          page: IngredientsPage,
         ),
         AutoRoute(
           page: WizardsPage,

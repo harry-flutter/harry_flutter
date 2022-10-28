@@ -38,22 +38,6 @@ class SettingsRepository {
     }
   }
 
-  List<String> getFavoriteHouses() {
-    return prefs.getStringList(favoriteHousesKey) ?? [];
-  }
-
-  Future<void> clearFavoriteHouses() async {
-    _clearList(favoriteHousesKey);
-  }
-
-  Future<void> addFavoriteHouse(String value) async {
-    _addToList(favoriteHousesKey, value);
-  }
-
-  Future<void> removeFavoriteHouse(String value) async {
-    _removeFromList(favoriteHousesKey, value);
-  }
-
   Future<void> _clearList(String key) async {
     await prefs.remove(key);
   }

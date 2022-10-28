@@ -126,7 +126,7 @@ class _ElixirDetailsPageState extends State<ElixirDetailsPage> {
           Text('${widget.elixir!.characteristics}'),
           Text('${widget.elixir!.time}'),
           const Text(
-            'Ingridients',
+            'Ingredients',
             style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
