@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
         routerDelegate: _appRouter.delegate(),
         routeInformationParser: _appRouter.defaultRouteParser(),
         debugShowCheckedModeBanner: false,
-        builder: (context, router) {
+        builder: (context, child) {
           return BlocBuilder<UserAuthBloc, UserAuthState>(
             builder: (context, state) {
               harryCollectionsBloc.add(const HarryCollectionsEvent.init());
@@ -49,7 +49,7 @@ class MyApp extends StatelessWidget {
                   ],
                 );
               }, authorized: (login) {
-                return router!;
+                return child ?? const SizedBox.shrink();
               });
             },
           );

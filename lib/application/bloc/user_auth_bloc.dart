@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import '../../data/repositories/settings_repository.dart';
 
@@ -37,6 +38,13 @@ class UserAuthBloc extends Bloc<UserAuthEvent, UserAuthState> {
       emit(UserAuthState.authorized(login));
     } else {
       emit(const UserAuthState.unauthorized());
+
+      Fluttertoast.showToast(
+        msg: "Неверный логин или пароль",
+        gravity: ToastGravity.SNACKBAR,
+        timeInSecForIosWeb: 2,
+        fontSize: 18.0,
+      );
     }
   }
 
