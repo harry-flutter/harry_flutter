@@ -25,7 +25,7 @@ class _HomePageState extends State<HomePage> {
     return AutoTabsRouter(
       routes: const [
         ElixirsHomePageRoute(),
-        HousesPageRoute(),
+        HousesHomePageRoute(),
         IngredientsPageRoute(),
         WizardsPageRoute(),
       ],
@@ -61,14 +61,21 @@ class _HomePageState extends State<HomePage> {
               tabsRouter.setActiveIndex(index);
             },
             showSelectedLabels: false,
-            selectedIconTheme: const IconThemeData(color: Colors.black, opacity: 1.0, size: 40),
+            selectedIconTheme: const IconThemeData(
+                color: Colors.black, opacity: 1.0, size: 40),
             selectedFontSize: 16.0,
-            unselectedIconTheme: const IconThemeData(color: Colors.black54, opacity: 1.0, size: 24),
+            unselectedIconTheme: const IconThemeData(
+                color: Colors.black54, opacity: 1.0, size: 24),
             items: const [
-              BottomNavigationBarItem(label: 'Elixirs', icon: FaIcon(FontAwesomeIcons.flask)),
-              BottomNavigationBarItem(label: 'Houses', icon: FaIcon(FontAwesomeIcons.fortAwesome)),
-              BottomNavigationBarItem(label: 'Ingredients', icon: FaIcon(FontAwesomeIcons.cubesStacked)),
-              BottomNavigationBarItem(label: 'Wizards', icon: FaIcon(FontAwesomeIcons.hatWizard)),
+              BottomNavigationBarItem(
+                  label: 'Elixirs', icon: FaIcon(FontAwesomeIcons.flask)),
+              BottomNavigationBarItem(
+                  label: 'Houses', icon: FaIcon(FontAwesomeIcons.fortAwesome)),
+              BottomNavigationBarItem(
+                  label: 'Ingredients',
+                  icon: FaIcon(FontAwesomeIcons.cubesStacked)),
+              BottomNavigationBarItem(
+                  label: 'Wizards', icon: FaIcon(FontAwesomeIcons.hatWizard)),
             ],
           ),
         );

@@ -2,6 +2,10 @@ class ImagePaths {
   const ImagePaths();
 
   static ElixirPaths elixirs = ElixirPaths();
+
+  static HousePaths houses = HousePaths();
+
+  static String get noImage => 'assets/images/no-image.png';
 }
 
 class ElixirPaths {
@@ -18,4 +22,11 @@ class ElixirPaths {
     'assets/images/elixir_red.png',
     'assets/images/elixir_yellow.png',
   ];
+}
+
+class HousePaths {
+  String get gryffindor => 'assets/images/gryffindor.jpg';
+  String get hufflepuff => 'assets/images/hufflepuff.jpg';
+  String get ravenclaw => 'assets/images/ravenclaw.png';
+  String get slytherin => 'assets/images/slytherin.jpg';
 }

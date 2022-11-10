@@ -1,8 +1,10 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../application/bloc/harry_collections_bloc.dart';
 import '../../../application/injection_module/injection_container.dart';
+import '../../../application/navigation/app_router.gr.dart';
 import '../../../data/repositories/settings_repository.dart';
 
 class HousesPage extends StatefulWidget {
@@ -57,7 +59,10 @@ class _HousesPageState extends State<HousesPage> {
                           trailing: Text(item.founder ?? ''),
                           subtitle: Text(item.commonRoom ?? ''),
                           isThreeLine: true,
-                          onTap: () {},
+                          onTap: () async {
+                            await context.router
+                                .push(HouseDetailPageRoute(house: item));
+                          },
                         );
                       }),
                       itemCount: houses.length,
