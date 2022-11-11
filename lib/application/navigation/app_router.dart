@@ -4,7 +4,7 @@ import 'package:auto_route/empty_router_widgets.dart';
 import '../../ui/routes/ElixirDetails/elixir_details_page.dart';
 import '../../ui/routes/Elixirs/elixirs_page.dart';
 import '../../ui/routes/Houses/houses_page.dart';
-import '../../ui/routes/HousesDetails/houses_details_page.dart';
+import '../../ui/routes/HouseDetails/house_details_page.dart';
 import '../../ui/routes/Ingredients/ingredients_page.dart';
 import '../../ui/routes/Wizards/wizards_page.dart';
 import '../../ui/routes/home_page.dart';

@@ -15,20 +15,31 @@ enum HouseNamesEnum {
 }
 
 class HouseDetailPage extends StatefulWidget {
-  final House house;
-  final bool? isFavorite;
-
   const HouseDetailPage({
-    super.key,
     required this.house,
     @QueryParam('isFavorite') this.isFavorite,
-  });
+    this.onToggleFavorite,
+    Key? key,
+  }) : super(key: key);
+
+  final House house;
+  final bool? isFavorite;
+  final void Function(bool value)? onToggleFavorite;
 
   @override
   State<HouseDetailPage> createState() => _HouseDetailPageState();
 }
 
 class _HouseDetailPageState extends State<HouseDetailPage> {
+  bool isFavorite = false;
+
+  @override
+  void initState() {
+    isFavorite = widget.isFavorite == true;
+
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -67,10 +78,13 @@ class _HouseDetailPageState extends State<HouseDetailPage> {
               ),
               const SizedBox(width: 6),
               GestureDetector(
-                onTap: () {},
-                child: widget.isFavorite == true
-                    ? const Icon(Icons.star)
-                    : const Icon(Icons.star_border),
+                onTap: (() {
+                  widget.onToggleFavorite!.call(!isFavorite);
+                  setState(() {
+                    isFavorite = !isFavorite;
+                  });
+                }),
+                child: isFavorite == true ? const Icon(Icons.star) : const Icon(Icons.star_border),
               ),
             ],
           ),

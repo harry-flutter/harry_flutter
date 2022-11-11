@@ -78,7 +78,7 @@ class _ElixirsPageState extends State<ElixirsPage> {
               color: Colors.white,
               child: Column(
                 children: [
-                  _renderHeader(context),
+                  _renderHeader(context, harryCollectionsBloc),
                   _renderContent(elixirs, harryCollectionsBloc),
                 ],
               ),
@@ -89,8 +89,7 @@ class _ElixirsPageState extends State<ElixirsPage> {
     );
   }
 
-  Widget _renderHeader(BuildContext context) {
-    final harryCollectionsBloc = context.read<HarryCollectionsBloc>();
+  Widget _renderHeader(BuildContext context, HarryCollectionsBloc harryCollectionsBloc) {
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Row(
@@ -152,7 +151,7 @@ class _ElixirsPageState extends State<ElixirsPage> {
     );
   }
 
-  Expanded _renderContent(List<Elixir> elixirs, HarryCollectionsBloc harryCollectionsBloc) {
+  Widget _renderContent(List<Elixir> elixirs, HarryCollectionsBloc harryCollectionsBloc) {
     return Expanded(
       child: LazyLoadScrollView(
         child: Scrollbar(

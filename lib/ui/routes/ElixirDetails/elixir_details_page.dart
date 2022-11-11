@@ -3,7 +3,6 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:harry_flutter/application/assets/images.dart';
 import 'package:share_plus/share_plus.dart';
-
 import '../../../data/models/elixir.dart';
 
 const sharePrefix = 'Бро! Зацени какой я Эликсир нашел:';
